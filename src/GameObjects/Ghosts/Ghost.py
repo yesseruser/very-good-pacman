@@ -13,10 +13,12 @@ class Ghost(MovableGameObject):
         super().__init__(game, position)
         self.color = color
         self.speed = 10
-        self.mode = GhostMode.SCATTER
         self.phase = 0
         self.last_mode = game.get_ghost_mode()
         self.direction = Direction.NONE
+
+    def get_target_tile(self) -> (int, int):
+        return self.tile_position()
 
     def update(self):
         mode = self.game.get_ghost_mode()
