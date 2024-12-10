@@ -90,6 +90,9 @@ class Game(GameBase):
     def get_ghost_mode(self) -> GhostMode:
         return self.phaseHandler.mode
 
+    def get_player_tile(self) -> (int, int):
+        return self.player.tile_position()
+
     def get_tile_at(self, x: int, y: int) -> LevelTile:
         if x < 0 or x >= self.level.width or y < 0 or y >= self.level.height:
             return LevelTile.EMPTY

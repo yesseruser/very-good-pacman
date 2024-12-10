@@ -28,6 +28,9 @@ class GameBase:
     def get_ghost_mode(self) -> GhostMode:
         pass
 
+    def get_player_tile(self) -> (int, int):
+        pass
+
     def get_tile_at(self, x: int, y: int) -> LevelTile:
         pass
 
