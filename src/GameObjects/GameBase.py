@@ -36,3 +36,6 @@ class GameBase:
 
     def get_tile_at_tuple(self, tile: (int, int)) -> LevelTile:
         return self.get_tile_at(tile[0], tile[1])
+
+    def get_level_tile_size(self) -> (int, int):
+        pass

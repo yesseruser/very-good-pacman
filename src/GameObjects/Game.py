@@ -98,3 +98,6 @@ class Game(GameBase):
             return LevelTile.EMPTY
 
         return self.level.map[y][x]
+
+    def get_level_tile_size(self) -> (int, int):
+        return len(self.level.map[0]), len(self.level.map)
