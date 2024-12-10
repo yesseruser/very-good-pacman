@@ -31,8 +31,8 @@ class Game(GameBase):
         self.level.load_from_file("res/level.txt")
 
         pygame.init()
-        self.window = pygame.display.set_mode((len(self.level.map) * settings.tile_pixels,
-                                               len(self.level.map[0]) * settings.tile_pixels))
+        self.window = pygame.display.set_mode((len(self.level.map[0]) * settings.tile_pixels,
+                                               len(self.level.map) * settings.tile_pixels))
 
         player_spawn_pixels = self.get_pixel_center_from_tile(self.level.player_spawn)
         self.player = Player(self, player_spawn_pixels)
