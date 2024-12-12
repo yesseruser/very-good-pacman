@@ -40,3 +40,4 @@ class MovableGameObject(GameObject):
 
     def update(self):
         self.move()
+        super().update()

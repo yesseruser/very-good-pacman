@@ -26,5 +26,7 @@ class Ghost(MovableGameObject):
             self.direction = self.direction.reversed()
             self.last_mode = mode
 
+        super().update()
+
     def draw(self):
         pygame.draw.circle(self.game.window, self.color, self.pixel_center_pos, self.game.settings.tile_pixels / 2)
