@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 from src.GameObjects.GameBase import GameBase
@@ -19,6 +21,25 @@ class Ghost(MovableGameObject):
 
     def get_target_tile(self) -> (int, int):
         return self.tile_position()
+
+    def get_next_direction(self) -> Direction:
+        target = self.get_target_tile()
+        front = self.direction
+        left = Direction.get_relative_direction(self.direction, True)
+        right = Direction.get_relative_direction(self.direction, False)
+        front_tile = front.get_moved_position(self.tile_position(), 1)
+        left_tile = left.get_moved_position(self.tile_position(), 1)
+        right_tile = right.get_moved_position(self.tile_position(), 1)
+        front_distance = math.dist(front_tile, target)
+        left_distance = math.dist(left_tile, target)
+        right_distance = math.dist(right_tile, target)
+
+        if front_distance < left_distance and front_distance < right_distance:
+            return front
+        if left_distance < front_distance and left_distance < right_distance:
+            return left
+        if right_distance < front_distance and right_distance < left_distance:
+            return right
 
     def update(self):
         mode = self.game.get_ghost_mode()
