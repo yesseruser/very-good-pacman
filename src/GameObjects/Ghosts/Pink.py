@@ -11,3 +11,4 @@ class Pink(Ghost):
         match self.game.get_ghost_mode():
             case GhostMode.CHASE:
                 return 0, 0
+        return super().get_target_tile()

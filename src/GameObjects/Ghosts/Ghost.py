@@ -6,10 +6,12 @@ from src.GameObjects.GameBase import GameBase
 from src.GameObjects.MovableGameObject import MovableGameObject
 from src.Models.Direction import Direction
 from src.Models.GhostMode import GhostMode
+from src.Models.LevelTile import LevelTile
 
 
 class Ghost(MovableGameObject):
     last_mode: GhostMode
+    last_tile: (int, int)
 
     def __init__(self, game: GameBase, position: (int, int), color: (int, int, int)):
         super().__init__(game, position)
@@ -17,7 +19,8 @@ class Ghost(MovableGameObject):
         self.speed = 10
         self.phase = 0
         self.last_mode = game.get_ghost_mode()
-        self.direction = Direction.NONE
+        self.last_tile = position
+        self.direction = Direction.UP
 
     def get_target_tile(self) -> (int, int):
         return self.tile_position()
@@ -34,11 +37,11 @@ class Ghost(MovableGameObject):
         left_distance = math.dist(left_tile, target)
         right_distance = math.dist(right_tile, target)
 
-        if front_distance < left_distance and front_distance < right_distance:
+        if self.game.get_tile_at_tuple(front_tile) != LevelTile.WALL and front_distance <= left_distance and front_distance <= right_distance:
             return front
-        if left_distance < front_distance and left_distance < right_distance:
+        if self.game.get_tile_at_tuple(left_tile) != LevelTile.WALL and left_distance <= front_distance and left_distance <= right_distance:
             return left
-        if right_distance < front_distance and right_distance < left_distance:
+        if self.game.get_tile_at_tuple(right_tile) != LevelTile.WALL and right_distance <= front_distance and right_distance <= left_distance:
             return right
 
     def update(self):
@@ -47,6 +50,8 @@ class Ghost(MovableGameObject):
             self.direction = self.direction.reversed()
             self.last_mode = mode
 
+        if self.tile_position() != self.last_tile:
+            self.get_next_direction()
         super().update()
 
     def draw(self):

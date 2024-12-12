@@ -13,3 +13,4 @@ class Red(Ghost):
                 return self.game.get_player_tile()
             case GhostMode.SCATTER:
                 return self.game.get_level_tile_size()[0] - 1, -1
+        return super().get_target_tile()
