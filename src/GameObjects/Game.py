@@ -39,10 +39,10 @@ class Game(GameBase):
         self.player.color = (255, 255, 0)
         self.player.speed = 4
 
-        self.ghosts = [Red(self, self.get_pixel_center_from_tile((0, 0))),
-                       Blue(self, self.get_pixel_center_from_tile((1, 0))),
-                       Green(self, self.get_pixel_center_from_tile((2, 0))),
-                       Pink(self, self.get_pixel_center_from_tile((3, 0)))]
+        self.ghosts = [Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
+                       Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
+                       Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
+                       Green(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
     def update(self):
         self.player.update()
