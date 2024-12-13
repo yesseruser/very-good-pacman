@@ -4,7 +4,7 @@ from pygame.event import EventType
 from src.GameObjects.GameBase import GameBase
 from src.GameObjects.GameSettings import GameSettings
 from src.GameObjects.Ghosts.Ghost import Ghost
-from src.GameObjects.Ghosts.Orange import Green
+from src.GameObjects.Ghosts.Orange import Orange
 from src.GameObjects.Ghosts.Red import Red
 from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Pink import Pink
@@ -42,7 +42,7 @@ class Game(GameBase):
         self.ghosts = [Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
                        Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
                        Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
-                       Green(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
+                       Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
     def update(self):
         self.player.update()

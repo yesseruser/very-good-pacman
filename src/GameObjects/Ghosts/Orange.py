@@ -3,7 +3,7 @@ from src.GameObjects.Ghosts.Ghost import Ghost
 from src.Models.GhostMode import GhostMode
 
 
-class Green(Ghost):
+class Orange(Ghost):
     def __init__(self, game: GameBase, position: (int, int)):
         super().__init__(game, position, (255, 100, 0))
 
