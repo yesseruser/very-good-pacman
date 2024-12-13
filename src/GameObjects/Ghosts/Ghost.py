@@ -33,16 +33,30 @@ class Ghost(MovableGameObject):
         front_tile = front.get_moved_position(self.tile_position(), 1)
         left_tile = left.get_moved_position(self.tile_position(), 1)
         right_tile = right.get_moved_position(self.tile_position(), 1)
-        front_distance = math.dist(front_tile, target)
-        left_distance = math.dist(left_tile, target)
-        right_distance = math.dist(right_tile, target)
+        distances = {
+            front: math.dist(front_tile, target),
+            left: math.dist(left_tile, target),
+            right: math.dist(right_tile, target)
+        }
 
-        if self.game.get_tile_at_tuple(front_tile) != LevelTile.WALL and front_distance <= left_distance and front_distance <= right_distance:
-            return front
-        if self.game.get_tile_at_tuple(left_tile) != LevelTile.WALL and left_distance <= front_distance and left_distance <= right_distance:
-            return left
-        if self.game.get_tile_at_tuple(right_tile) != LevelTile.WALL and right_distance <= front_distance and right_distance <= left_distance:
-            return right
+        valid_dirs = []
+
+        if self.game.get_tile_at_tuple(front_tile) != LevelTile.WALL:
+            valid_dirs.append(front)
+        if self.game.get_tile_at_tuple(left_tile) != LevelTile.WALL:
+            valid_dirs.append(left)
+        if self.game.get_tile_at_tuple(right_tile) != LevelTile.WALL:
+            valid_dirs.append(right)
+
+        min_dir = valid_dirs[0]
+
+        for i in valid_dirs:
+            for direction in valid_dirs:
+                if distances[direction] < distances[min_dir]:
+                    min_dir = direction
+
+        return min_dir
+
 
     def update(self):
         mode = self.game.get_ghost_mode()
