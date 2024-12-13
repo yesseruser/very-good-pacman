@@ -23,12 +23,21 @@ class Level:
     map: list[list[LevelTile]]
     is_loaded: bool
     game: GameBase
+    player_spawn: (int, int)
+    red_spawn: (int, int)
+    blue_spawn: (int, int)
+    pink_spawn: (int, int)
+    orange_spawn: (int, int)
 
     def __init__(self, game: GameBase):
         self.map = []
         self.width = 0
         self.height = 0
         self.player_spawn = (0, 0)
+        self.red_spawn = (0, 0)
+        self.blue_spawn = (0, 0)
+        self.pink_spawn = (0, 0)
+        self.orange_spawn = (0, 0)
         self.game = game
         self.is_loaded = False
 
@@ -41,6 +50,22 @@ class Level:
                 for character in line:
                     if character == "P":
                         self.player_spawn = (len(row), len(self.map))
+                        row.append(LevelTile.EMPTY)
+                        continue
+                    if character == "1":
+                        self.red_spawn = (len(row), len(self.map))
+                        row.append(LevelTile.EMPTY)
+                        continue
+                    if character == "2":
+                        self.blue_spawn = (len(row), len(self.map))
+                        row.append(LevelTile.EMPTY)
+                        continue
+                    if character == "3":
+                        self.pink_spawn = (len(row), len(self.map))
+                        row.append(LevelTile.EMPTY)
+                        continue
+                    if character == "4":
+                        self.orange_spawn = (len(row), len(self.map))
                         row.append(LevelTile.EMPTY)
                         continue
                     row.append(character_to_tile(character))
