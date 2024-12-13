@@ -4,7 +4,7 @@ from pygame.event import EventType
 from src.GameObjects.GameBase import GameBase
 from src.GameObjects.GameSettings import GameSettings
 from src.GameObjects.Ghosts.Ghost import Ghost
-from src.GameObjects.Ghosts.Green import Green
+from src.GameObjects.Ghosts.Orange import Green
 from src.GameObjects.Ghosts.Red import Red
 from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Pink import Pink
