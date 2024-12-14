@@ -1,6 +1,7 @@
 from pygame import SurfaceType
 
 from src.GameObjects.GameSettings import GameSettings
+from src.Models.Direction import Direction
 from src.Models.GhostMode import GhostMode
 from src.Models.LevelTile import LevelTile
 
@@ -29,6 +30,9 @@ class GameBase:
         pass
 
     def get_player_tile(self) -> (int, int):
+        pass
+
+    def get_player_direction(self) -> Direction:
         pass
 
     def get_tile_at(self, x: int, y: int) -> LevelTile:

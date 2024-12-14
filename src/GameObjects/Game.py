@@ -11,6 +11,7 @@ from src.GameObjects.Ghosts.Pink import Pink
 from src.GameObjects.Level import Level
 from src.GameObjects.PhaseHandler import PhaseHandler
 from src.GameObjects.Player import Player
+from src.Models.Direction import Direction
 from src.Models.GhostMode import GhostMode
 from src.Models.LevelTile import LevelTile
 
@@ -92,6 +93,9 @@ class Game(GameBase):
 
     def get_player_tile(self) -> (int, int):
         return self.player.tile_position()
+
+    def get_player_direction(self) -> Direction:
+        return self.player.direction
 
     def get_tile_at(self, x: int, y: int) -> LevelTile:
         if x < 0 or x >= self.level.width or y < 0 or y >= self.level.height:
