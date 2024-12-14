@@ -1,7 +1,7 @@
 from src.GameObjects.GameObject import GameObject
 from src.GameObjects.Level import Level
 from src.Models.Direction import Direction
-from src.Models.LevelTile import LevelTile
+from src.Models.LevelTile import LevelTile, solid_tiles
 
 
 class MovableGameObject(GameObject):
@@ -15,13 +15,13 @@ class MovableGameObject(GameObject):
                 self.game.get_tile_from_pixel(
                     self.direction.reversed().get_corner_to_check(self.next_direction,
                                                                   self.pixel_center_pos,
-                                                                  self.game.settings.tile_pixels, (-1, 1)))) != LevelTile.WALL and
+                                                                  self.game.settings.tile_pixels, (-1, 1)))) not in solid_tiles and
             self.game.get_tile_at_tuple(
                 self.game.get_tile_from_pixel(
                     self.direction.get_corner_to_check(self.next_direction,
                                                                   self.pixel_center_pos,
                                                                   self.game.settings.tile_pixels,
-                                                                  (-1, 1)))) != LevelTile.WALL):
+                                                                  (-1, 1)))) not in solid_tiles):
             self.direction = self.next_direction
 
         corner1 = self.direction.get_corner_to_check(self.direction.get_relative_direction(),
@@ -40,3 +40,4 @@ class MovableGameObject(GameObject):
 
     def update(self):
         self.move()
+        super().update()

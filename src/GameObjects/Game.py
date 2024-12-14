@@ -4,13 +4,14 @@ from pygame.event import EventType
 from src.GameObjects.GameBase import GameBase
 from src.GameObjects.GameSettings import GameSettings
 from src.GameObjects.Ghosts.Ghost import Ghost
-from src.GameObjects.Ghosts.Green import Green
+from src.GameObjects.Ghosts.Orange import Orange
 from src.GameObjects.Ghosts.Red import Red
 from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Pink import Pink
 from src.GameObjects.Level import Level
 from src.GameObjects.PhaseHandler import PhaseHandler
 from src.GameObjects.Player import Player
+from src.Models.Direction import Direction
 from src.Models.GhostMode import GhostMode
 from src.Models.LevelTile import LevelTile
 
@@ -37,12 +38,12 @@ class Game(GameBase):
         player_spawn_pixels = self.get_pixel_center_from_tile(self.level.player_spawn)
         self.player = Player(self, player_spawn_pixels)
         self.player.color = (255, 255, 0)
-        self.player.speed = 4
+        self.player.speed = settings.player_speed
 
-        self.ghosts = [Red(self, self.get_pixel_center_from_tile((0, 0))),
-                       Blue(self, self.get_pixel_center_from_tile((1, 0))),
-                       Green(self, self.get_pixel_center_from_tile((2, 0))),
-                       Pink(self, self.get_pixel_center_from_tile((3, 0)))]
+        self.ghosts = [Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
+                       Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
+                       Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
+                       Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
     def update(self):
         self.player.update()
@@ -93,6 +94,9 @@ class Game(GameBase):
     def get_player_tile(self) -> (int, int):
         return self.player.tile_position()
 
+    def get_player_direction(self) -> Direction:
+        return self.player.direction
+
     def get_tile_at(self, x: int, y: int) -> LevelTile:
         if x < 0 or x >= self.level.width or y < 0 or y >= self.level.height:
             return LevelTile.EMPTY
@@ -101,3 +105,6 @@ class Game(GameBase):
 
     def get_level_tile_size(self) -> (int, int):
         return len(self.level.map[0]), len(self.level.map)
+
+    def get_ghost_tile(self, ghost_index: int) -> (int, int):
+        return self.ghosts[ghost_index].tile_position()
