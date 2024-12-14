@@ -30,6 +30,7 @@ class Ghost(MovableGameObject):
         self.in_ghost_house = True
         self.activated = False
         self.spawn_pixel_position = position
+        self.mode = GhostMode.CHASE
 
     def get_target_tile(self) -> (int, int):
         if self.in_ghost_house:

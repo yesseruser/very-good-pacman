@@ -1,15 +1,15 @@
 import sys
 
 import pygame
-from pygame.event import EventType, get_grab
+from pygame.event import EventType
 
 from src.GameObjects.GameBase import GameBase
 from src.GameObjects.GameSettings import GameSettings
+from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Ghost import Ghost
 from src.GameObjects.Ghosts.Orange import Orange
-from src.GameObjects.Ghosts.Red import Red
-from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Pink import Pink
+from src.GameObjects.Ghosts.Red import Red
 from src.GameObjects.Level import Level
 from src.GameObjects.LivesDisplay import LivesDisplay
 from src.GameObjects.PhaseHandler import PhaseHandler
@@ -73,7 +73,7 @@ class Game(GameBase):
             self.player.activated = True
             self.init_ghosts()
 
-        elif self.phase_handler.mode == GhostMode.FRIGHTENED:
+        elif ghost.mode == GhostMode.FRIGHTENED:
             self.player.score += 200
             pygame.time.delay(500)
             ghost.pixel_center_pos = ghost.spawn_pixel_position
@@ -82,7 +82,7 @@ class Game(GameBase):
 
     def update(self):
         self.player.update()
-        self.phase_handler.update()
+        self.phase_handler.handle_mode_change(self.ghosts)
         for ghost in self.ghosts:
             ghost.update()
             if self.player.tile_position() == ghost.tile_position():
@@ -132,9 +132,6 @@ class Game(GameBase):
             center_pixel[0] % (self.level.width * self.settings.tile_pixels),
             center_pixel[1] % (self.level.height * self.settings.tile_pixels)
         )
-
-    def get_ghost_mode(self) -> GhostMode:
-        return self.phase_handler.mode
 
     def get_player_tile(self) -> (int, int):
         return self.player.tile_position()
