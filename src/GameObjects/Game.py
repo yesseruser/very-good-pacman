@@ -169,6 +169,14 @@ class Game(GameBase):
             return True
         return False
 
+    def try_collect_energizer(self, tile: (int, int)) -> bool:
+        if self.get_tile_at(tile) == LevelTile.ENERGIZER:
+            self.level.map[tile[1]][tile[0]] = LevelTile.EMPTY
+            self.phase_handler.frighten_ghosts(self.ghosts)
+            self.player.on_energizer_collected()
+            return True
+        return False
+
     def get_ghost_house_exit(self) -> (int, int):
         return self.level.red_spawn
 

@@ -36,7 +36,11 @@ class Player(MovableGameObject):
     def update(self):
         super().update()
         self.game.try_collect_coin(self.tile_position())
+        self.game.try_collect_energizer(self.tile_position())
 
     def on_coin_collected(self):
         self.coins += 1
         self.score += 10
+
+    def on_energizer_collected(self):
+        self.score += 50

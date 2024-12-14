@@ -70,6 +70,8 @@ class Ghost(MovableGameObject):
         if self.last_mode != mode and self.mode != GhostMode.FRIGHTENED:
             self.direction = self.direction.reversed()
             self.last_mode = mode
+
+        if self.mode != GhostMode.FRIGHTENED:
             self.color = self.base_color
             self.speed = self.game.settings.ghost_speed
 

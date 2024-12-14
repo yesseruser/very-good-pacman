@@ -56,6 +56,9 @@ class GameBase:
     def try_collect_coin(self, tile: (int, int)) -> bool:
         pass
 
+    def try_collect_energizer(self, tile: (int, int)) -> bool:
+        pass
+
     def get_ghost_house_exit(self) -> (int, int):
         pass
 
