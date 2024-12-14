@@ -9,19 +9,22 @@ class MovableGameObject(GameObject):
     next_direction: Direction = Direction.NONE
     speed: int
 
+    def get_solid_tiles(self) -> list[LevelTile]:
+        return solid_tiles
+
     def move(self):
         if (self.next_direction != Direction.NONE and self.next_direction != self.direction and
             self.game.get_tile_at_tuple(
                 self.game.get_tile_from_pixel(
                     self.direction.reversed().get_corner_to_check(self.next_direction,
                                                                   self.pixel_center_pos,
-                                                                  self.game.settings.tile_pixels, (-1, 1)))) not in solid_tiles and
+                                                                  self.game.settings.tile_pixels, (-1, 1)))) not in self.get_solid_tiles() and
             self.game.get_tile_at_tuple(
                 self.game.get_tile_from_pixel(
                     self.direction.get_corner_to_check(self.next_direction,
                                                                   self.pixel_center_pos,
                                                                   self.game.settings.tile_pixels,
-                                                                  (-1, 1)))) not in solid_tiles):
+                                                                  (-1, 1)))) not in self.get_solid_tiles()):
             self.direction = self.next_direction
 
         corner1 = self.direction.get_corner_to_check(self.direction.get_relative_direction(),
@@ -35,7 +38,7 @@ class MovableGameObject(GameObject):
                 self.game.get_tile_from_pixel(
                     corner2))
 
-        if tile1 != LevelTile.WALL and tile2 != LevelTile.WALL:
+        if tile1 not in self.get_solid_tiles() and tile2  not in self.get_solid_tiles():
             self.pixel_center_pos = self.game.get_wrapped_position(self.direction.get_moved_position(self.pixel_center_pos, self.speed))
 
     def update(self):

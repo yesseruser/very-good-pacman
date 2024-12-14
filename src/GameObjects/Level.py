@@ -11,8 +11,12 @@ def character_to_tile(character: str) -> LevelTile:
             return LevelTile.EMPTY
         case "Z":
             return LevelTile.WALL
+        case "#":
+            return LevelTile.WALL
         case ".":
             return LevelTile.COIN
+        case "O":
+            return LevelTile.ENERGIZER
 
     return LevelTile.EMPTY
 
@@ -58,15 +62,15 @@ class Level:
                         continue
                     if character == "2":
                         self.blue_spawn = (len(row), len(self.map))
-                        row.append(LevelTile.EMPTY)
+                        row.append(LevelTile.GHOST_HOUSE)
                         continue
                     if character == "3":
                         self.pink_spawn = (len(row), len(self.map))
-                        row.append(LevelTile.EMPTY)
+                        row.append(LevelTile.GHOST_HOUSE)
                         continue
                     if character == "4":
                         self.orange_spawn = (len(row), len(self.map))
-                        row.append(LevelTile.EMPTY)
+                        row.append(LevelTile.GHOST_HOUSE)
                         continue
                     row.append(character_to_tile(character))
                 self.map.append(row)

@@ -10,6 +10,9 @@ class Orange(Ghost):
         super().__init__(game, position, (255, 100, 0))
 
     def get_target_tile(self) -> (int, int):
+        if self.in_ghost_house:
+            return self.game.get_ghost_house_exit()
+
         match self.game.get_ghost_mode():
             case GhostMode.CHASE:
                 if math.dist(self.game.get_player_tile(), self.tile_position()) > 8:

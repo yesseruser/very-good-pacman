@@ -8,6 +8,9 @@ class Blue(Ghost):
         super().__init__(game, position, (0, 255, 255))
 
     def get_target_tile(self) -> (int, int):
+        if self.in_ghost_house:
+            return self.game.get_ghost_house_exit()
+
         match self.game.get_ghost_mode():
             case GhostMode.CHASE:
                 center_point = self.game.get_pixel_center_from_tile(self.game.get_player_direction().get_moved_position(

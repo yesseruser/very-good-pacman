@@ -138,3 +138,6 @@ class Game(GameBase):
             return True
         return False
 
+    def get_ghost_house_exit(self) -> (int, int):
+        return self.level.red_spawn
+
