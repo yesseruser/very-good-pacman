@@ -97,6 +97,12 @@ class Game(GameBase):
     def get_player_direction(self) -> Direction:
         return self.player.direction
 
+    def get_score(self) -> int:
+        return self.player.score
+
+    def get_lives(self) -> int:
+        return self.player.lives
+
     def get_tile_at(self, x: int, y: int) -> LevelTile:
         if x < 0 or x >= self.level.width or y < 0 or y >= self.level.height:
             return LevelTile.EMPTY

@@ -35,6 +35,12 @@ class GameBase:
     def get_player_direction(self) -> Direction:
         pass
 
+    def get_score(self) -> int:
+        pass
+
+    def get_lives(self) -> int:
+        pass
+
     def get_tile_at(self, x: int, y: int) -> LevelTile:
         pass
 
