@@ -11,6 +11,7 @@ from src.GameObjects.Ghosts.Pink import Pink
 from src.GameObjects.Level import Level
 from src.GameObjects.PhaseHandler import PhaseHandler
 from src.GameObjects.Player import Player
+from src.GameObjects.ScoreDisplay import ScoreDisplay
 from src.Models.Direction import Direction
 from src.Models.GhostMode import GhostMode
 from src.Models.LevelTile import LevelTile
@@ -21,6 +22,7 @@ class Game(GameBase):
     player: Player
     level: Level
     phaseHandler: PhaseHandler
+    score_display: ScoreDisplay
 
     def __init__(self, settings: GameSettings):
         self.settings = settings
@@ -32,6 +34,7 @@ class Game(GameBase):
         self.level.load_from_file("res/level.txt")
 
         pygame.init()
+        pygame.font.init()
         self.window = pygame.display.set_mode((len(self.level.map[0]) * settings.tile_pixels,
                                                len(self.level.map) * settings.tile_pixels))
 
@@ -45,16 +48,20 @@ class Game(GameBase):
                        Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
                        Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
+        self.score_display = ScoreDisplay(self, (0, 0))
+
     def update(self):
         self.player.update()
         self.phaseHandler.update()
         for ghost in self.ghosts:
             ghost.update()
+        self.score_display.update()
 
     def on_event(self, event: EventType):
         self.player.on_event(event)
         for ghost in self.ghosts:
             ghost.on_event(event)
+        self.score_display.on_event(event)
 
         if event.type == pygame.QUIT:
             self.is_looping = False
@@ -67,6 +74,8 @@ class Game(GameBase):
         self.player.draw()
         for ghost in self.ghosts:
             ghost.draw()
+
+        self.score_display.draw()
 
     def loop(self):
         self.is_looping = True
