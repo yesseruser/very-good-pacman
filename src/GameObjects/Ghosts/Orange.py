@@ -21,3 +21,9 @@ class Orange(Ghost):
             case GhostMode.SCATTER:
                 return -1, self.game.get_level_tile_size()[1] + 1
         return super().get_target_tile()
+
+    def update(self):
+        if self.game.has_player_moved() and self.game.get_coins() > self.game.get_coins_in_level() / 3:
+            self.activated = True
+        
+        super().update()

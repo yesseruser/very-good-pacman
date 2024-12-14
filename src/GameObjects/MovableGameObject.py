@@ -7,11 +7,15 @@ class MovableGameObject(GameObject):
     direction: Direction = Direction.NONE
     next_direction: Direction = Direction.NONE
     speed: int
+    activated: bool
 
     def get_solid_tiles(self) -> list[LevelTile]:
         return solid_tiles
 
     def move(self):
+        if not self.activated:
+            return
+
         if (self.next_direction != Direction.NONE and self.next_direction != self.direction and
             self.game.get_tile_at(
                 self.game.get_tile_from_pixel(

@@ -118,6 +118,9 @@ class Game(GameBase):
     def get_score(self) -> int:
         return self.player.score
 
+    def get_coins(self) -> int:
+        return self.player.coins
+
     def get_lives(self) -> int:
         return self.player.lives
 
@@ -145,3 +148,8 @@ class Game(GameBase):
     def get_ghost_house_exit(self) -> (int, int):
         return self.level.red_spawn
 
+    def has_player_moved(self) -> bool:
+        return self.player.direction != Direction.NONE
+
+    def get_coins_in_level(self) -> int:
+        return self.level.coin_amount

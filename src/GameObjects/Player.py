@@ -16,6 +16,7 @@ class Player(MovableGameObject):
         self.lives = 3
         self.score = 0
         self.coins = 0
+        self.activated = True
 
     def draw(self):
         pygame.draw.circle(self.game.window, self.color, self.pixel_center_pos, self.game.settings.tile_pixels / 2)

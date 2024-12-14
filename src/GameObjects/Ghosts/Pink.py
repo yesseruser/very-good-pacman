@@ -17,3 +17,9 @@ class Pink(Ghost):
             case GhostMode.SCATTER:
                 return -1, -1
         return super().get_target_tile()
+
+    def update(self):
+        if self.game.has_player_moved():
+            self.activated = True
+
+        super().update()

@@ -23,6 +23,7 @@ class Ghost(MovableGameObject):
         self.last_tile = position
         self.direction = Direction.NONE
         self.in_ghost_house = True
+        self.activated = False
 
     def get_target_tile(self) -> (int, int):
         if self.in_ghost_house:

@@ -38,6 +38,9 @@ class GameBase:
     def get_score(self) -> int:
         pass
 
+    def get_coins(self) -> int:
+        pass
+
     def get_lives(self) -> int:
         pass
 
@@ -54,4 +57,10 @@ class GameBase:
         pass
 
     def get_ghost_house_exit(self) -> (int, int):
+        pass
+
+    def has_player_moved(self) -> bool:
+        pass
+
+    def get_coins_in_level(self) -> int:
         pass

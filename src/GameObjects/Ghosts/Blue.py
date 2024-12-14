@@ -24,3 +24,9 @@ class Blue(Ghost):
             case GhostMode.SCATTER:
                 return self.game.get_level_tile_size()[0] + 1, self.game.get_level_tile_size()[1] + 1
         return super().get_target_tile()
+
+    def update(self):
+        if self.game.has_player_moved() and self.game.get_coins() > 30:
+            self.activated = True
+            
+        super().update()

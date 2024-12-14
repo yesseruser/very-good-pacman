@@ -12,8 +12,6 @@ def character_to_tile(character: str) -> LevelTile:
             return LevelTile.WALL
         case "#":
             return LevelTile.WALL
-        case ".":
-            return LevelTile.COIN
         case "O":
             return LevelTile.ENERGIZER
         case "I":
@@ -33,6 +31,7 @@ class Level:
     blue_spawn: (int, int)
     pink_spawn: (int, int)
     orange_spawn: (int, int)
+    coin_amount: int
 
     def __init__(self, game: GameBase):
         self.map = []
@@ -50,6 +49,7 @@ class Level:
         with open(filename, "r") as file:
             lines = file.read().split("\n")
             self.map = []
+            self.coin_amount = 0
             for line in lines:
                 row = []
                 for character in line:
@@ -72,6 +72,10 @@ class Level:
                     if character == "4":
                         self.orange_spawn = (len(row), len(self.map))
                         row.append(LevelTile.GHOST_HOUSE)
+                        continue
+                    if character == ".":
+                        self.coin_amount += 1
+                        row.append(LevelTile.COIN)
                         continue
                     row.append(character_to_tile(character))
                 self.map.append(row)
