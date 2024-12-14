@@ -66,7 +66,7 @@ class Game(GameBase):
                 ghost.activated = False
                 ghost.direction = Direction.NONE
 
-            pygame.time.delay(3000)
+            pygame.time.delay(2000)
 
             self.player.lives -= 1
 
