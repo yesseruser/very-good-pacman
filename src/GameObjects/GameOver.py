@@ -8,11 +8,13 @@ from src.GameObjects.GameSettings import GameSettings
 
 class GameOver(GameBase):
     game_over_display: GameOverDisplay
+    score: int
 
     def __init__(self, settings: GameSettings, score: int):
         self.settings = settings
         self.is_looping = False
         self.clock = pygame.time.Clock()
+        self.score = score
 
         pygame.init()
         pygame.font.init()
@@ -46,3 +48,6 @@ class GameOver(GameBase):
 
             pygame.display.flip()
             self.clock.tick(60)
+
+    def get_score(self) -> int:
+        return self.score
