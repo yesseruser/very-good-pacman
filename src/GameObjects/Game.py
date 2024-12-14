@@ -24,7 +24,7 @@ class Game(GameBase):
     ghosts: list[Ghost]
     player: Player
     level: Level
-    phaseHandler: PhaseHandler
+    phase_handler: PhaseHandler
     score_display: ScoreDisplay
     lives_display: LivesDisplay
 
@@ -32,7 +32,7 @@ class Game(GameBase):
         self.settings = settings
         self.is_looping = False
         self.clock = pygame.time.Clock()
-        self.phaseHandler = PhaseHandler(self, (0, 0))
+        self.phase_handler = PhaseHandler(self, (0, 0))
 
         self.level = Level(self)
         self.level.load_from_file(f"{sys.path[0]}/res/level.txt")
@@ -45,21 +45,41 @@ class Game(GameBase):
         player_spawn_pixels = self.get_pixel_center_from_tile(self.level.player_spawn)
         self.player = Player(self, player_spawn_pixels)
         self.player.color = (255, 255, 0)
-        self.player.speed = settings.player_speed
+        self.player.speed = self.settings.player_speed
 
+        self.init_ghosts()
+
+        self.score_display = ScoreDisplay(self, (0, 0))
+        self.lives_display = LivesDisplay(self, (0, settings.tile_pixels))
+
+    def init_ghosts(self):
         self.ghosts = [Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
                        Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
                        Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
                        Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
-        self.score_display = ScoreDisplay(self, (0, 0))
-        self.lives_display = LivesDisplay(self, (0, settings.tile_pixels))
+    def player_collided(self, ghost: Ghost):
+        if self.phase_handler.mode != GhostMode.FRIGHTENED:
+            self.player.activated = False
+            for ghost in self.ghosts:
+                ghost.activated = False
+                ghost.direction = Direction.NONE
 
     def update(self):
         self.player.update()
-        self.phaseHandler.update()
+        self.phase_handler.update()
         for ghost in self.ghosts:
             ghost.update()
+
+            if self.player.tile_position() == ghost.tile_position():
+                self.player_collided(ghost)
+
+                self.clock.tick(1)
+
+                self.player.lives -= 1
+                self.player.activated = True
+                self.player.direction = Direction.NONE
+                self.player.pixel_center_pos = self.get_pixel_center_from_tile(self.level.player_spawn)
 
         self.score_display.update()
         self.lives_display.update()
@@ -107,7 +127,7 @@ class Game(GameBase):
         )
 
     def get_ghost_mode(self) -> GhostMode:
-        return self.phaseHandler.mode
+        return self.phase_handler.mode
 
     def get_player_tile(self) -> (int, int):
         return self.player.tile_position()
