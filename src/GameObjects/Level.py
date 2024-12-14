@@ -92,6 +92,8 @@ class Level:
                         self.draw_wall(x, y)
                     case LevelTile.COIN:
                         self.draw_coin(x, y)
+                    case LevelTile.ENERGIZER:
+                        self.draw_energizer(x, y)
 
     def draw_wall(self, x: int, y: int):
         pixel_center = self.game.get_pixel_center_from_tile((x, y))
@@ -103,3 +105,7 @@ class Level:
     def draw_coin(self, x: int, y: int):
         pygame.draw.circle(self.game.window, (235, 230, 0),
                            self.game.get_pixel_center_from_tile((x, y)), self.game.settings.tile_pixels / 10)
+
+    def draw_energizer(self, x: int, y: int):
+        pygame.draw.circle(self.game.window, (235, 230, 0),
+                           self.game.get_pixel_center_from_tile((x, y)), self.game.settings.tile_pixels / 4)
