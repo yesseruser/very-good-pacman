@@ -5,11 +5,11 @@ from pygame.event import EventType
 
 from src.GameObjects.GameBase import GameBase
 from src.GameObjects.GameSettings import GameSettings
+from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Ghost import Ghost
 from src.GameObjects.Ghosts.Orange import Orange
-from src.GameObjects.Ghosts.Red import Red
-from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Pink import Pink
+from src.GameObjects.Ghosts.Red import Red
 from src.GameObjects.Level import Level
 from src.GameObjects.LivesDisplay import LivesDisplay
 from src.GameObjects.PhaseHandler import PhaseHandler
@@ -24,7 +24,7 @@ class Game(GameBase):
     ghosts: list[Ghost]
     player: Player
     level: Level
-    phaseHandler: PhaseHandler
+    phase_handler: PhaseHandler
     score_display: ScoreDisplay
     lives_display: LivesDisplay
 
@@ -32,7 +32,7 @@ class Game(GameBase):
         self.settings = settings
         self.is_looping = False
         self.clock = pygame.time.Clock()
-        self.phaseHandler = PhaseHandler(self, (0, 0))
+        self.phase_handler = PhaseHandler(self, (0, 0))
 
         self.level = Level(self)
         self.level.load_from_file(f"{sys.path[0]}/res/level.txt")
@@ -45,21 +45,48 @@ class Game(GameBase):
         player_spawn_pixels = self.get_pixel_center_from_tile(self.level.player_spawn)
         self.player = Player(self, player_spawn_pixels)
         self.player.color = (255, 255, 0)
-        self.player.speed = settings.player_speed
+        self.player.speed = self.settings.player_speed
 
+        self.init_ghosts()
+
+        self.score_display = ScoreDisplay(self, (0, 0))
+        self.lives_display = LivesDisplay(self, (0, settings.tile_pixels))
+
+    def init_ghosts(self):
         self.ghosts = [Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
                        Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
                        Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
                        Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
-        self.score_display = ScoreDisplay(self, (0, 0))
-        self.lives_display = LivesDisplay(self, (0, settings.tile_pixels))
+    def player_collided(self, ghost: Ghost):
+        if ghost.mode != GhostMode.FRIGHTENED:
+            self.player.activated = False
+            for ghost in self.ghosts:
+                ghost.activated = False
+                ghost.direction = Direction.NONE
+
+            pygame.time.delay(3000)
+
+            self.player.lives -= 1
+            self.player.pixel_center_pos = self.get_pixel_center_from_tile(self.level.player_spawn)
+            self.player.direction = Direction.NONE
+            self.player.activated = True
+            self.init_ghosts()
+
+        elif ghost.mode == GhostMode.FRIGHTENED:
+            self.player.score += 200
+            pygame.time.delay(500)
+            ghost.pixel_center_pos = ghost.spawn_pixel_position
+            ghost.mode = GhostMode.CHASE
+            ghost.in_ghost_house = True
 
     def update(self):
         self.player.update()
-        self.phaseHandler.update()
+        self.phase_handler.handle_mode_change(self.ghosts)
         for ghost in self.ghosts:
             ghost.update()
+            if self.player.tile_position() == ghost.tile_position():
+                self.player_collided(ghost)
 
         self.score_display.update()
         self.lives_display.update()
@@ -105,9 +132,6 @@ class Game(GameBase):
             center_pixel[0] % (self.level.width * self.settings.tile_pixels),
             center_pixel[1] % (self.level.height * self.settings.tile_pixels)
         )
-
-    def get_ghost_mode(self) -> GhostMode:
-        return self.phaseHandler.mode
 
     def get_player_tile(self) -> (int, int):
         return self.player.tile_position()

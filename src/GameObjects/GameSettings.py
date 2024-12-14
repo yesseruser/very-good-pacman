@@ -4,3 +4,5 @@ class GameSettings:
     background_color = (0, 0, 0)
     player_speed = 2
     ghost_speed = 2
+    ghost_frightened_speed = 1
+    ghost_frightened_color = (0, 100, 255)

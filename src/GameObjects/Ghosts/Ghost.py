@@ -1,4 +1,5 @@
 import math
+import random
 
 import pygame
 
@@ -10,13 +11,17 @@ from src.Models.LevelTile import solid_tiles, LevelTile
 
 
 class Ghost(MovableGameObject):
+    mode: GhostMode
     last_mode: GhostMode
     last_tile: (int, int)
     in_ghost_house: bool
+    spawn_pixel_position: (int, int)
+    base_color: (int, int, int)
 
     def __init__(self, game: GameBase, position: (int, int), color: (int, int, int)):
         super().__init__(game, position)
         self.color = color
+        self.base_color = color
         self.speed = game.settings.ghost_speed
         self.phase = 0
         self.last_mode = game.get_ghost_mode()
@@ -24,6 +29,8 @@ class Ghost(MovableGameObject):
         self.direction = Direction.NONE
         self.in_ghost_house = True
         self.activated = False
+        self.spawn_pixel_position = position
+        self.mode = GhostMode.CHASE
 
     def get_target_tile(self) -> (int, int):
         if self.in_ghost_house:
@@ -41,6 +48,9 @@ class Ghost(MovableGameObject):
     def get_next_direction(self) -> Direction:
         directions = self.direction.get_possible_ghost_directions()
 
+        if self.mode == GhostMode.FRIGHTENED:
+            return random.choice(directions)
+
         if self.game.get_tile_at(self.tile_position()) == LevelTile.NO_VERTICAL:
             filtered = filter(lambda x: x != Direction.UP and x != Direction.DOWN, directions)
             directions = list(filtered)
@@ -57,9 +67,15 @@ class Ghost(MovableGameObject):
 
     def update(self):
         mode = self.game.get_ghost_mode()
-        if self.last_mode != mode:
+        if self.last_mode != mode and self.mode != GhostMode.FRIGHTENED:
             self.direction = self.direction.reversed()
             self.last_mode = mode
+            self.color = self.base_color
+            self.speed = self.game.settings.ghost_speed
+
+        if self.mode == GhostMode.FRIGHTENED:
+            self.color = self.game.settings.ghost_frightened_color
+            self.speed = self.game.settings.ghost_frightened_speed
 
         if self.last_tile != self.tile_position():
             self.next_direction = self.get_next_direction()
