@@ -48,13 +48,6 @@ class Ghost(MovableGameObject):
     def get_next_direction(self) -> Direction:
         directions = self.direction.get_possible_ghost_directions()
 
-        if self.mode == GhostMode.FRIGHTENED:
-            return random.choice(directions)
-
-        if self.game.get_tile_at(self.tile_position()) == LevelTile.NO_VERTICAL:
-            filtered = filter(lambda x: x != Direction.UP and x != Direction.DOWN, directions)
-            directions = list(filtered)
-
         distances = {}
         for direction in directions:
             tile = direction.get_moved_position(self.tile_position(), 1)
@@ -62,7 +55,14 @@ class Ghost(MovableGameObject):
                 continue
             distances[direction] = math.dist(tile, self.get_target_tile())
 
-        lowest_distance_pair = sorted(distances.items(), key=lambda x: x[1])[0]
+        if self.mode == GhostMode.FRIGHTENED and not self.in_ghost_house:
+            return random.choice(list(distances.keys()))
+
+        filtered = filter(lambda x: True, distances.items())
+        if self.game.get_tile_at(self.tile_position()) == LevelTile.NO_VERTICAL:
+            filtered = filter(lambda x: x[0] != Direction.UP and x[0] != Direction.DOWN, distances.items())
+
+        lowest_distance_pair = sorted(filtered, key=lambda x: x[1])[0]
         return lowest_distance_pair[0]
 
     def update(self):
@@ -70,6 +70,8 @@ class Ghost(MovableGameObject):
         if self.last_mode != mode and self.mode != GhostMode.FRIGHTENED:
             self.direction = self.direction.reversed()
             self.last_mode = mode
+
+        if self.mode != GhostMode.FRIGHTENED:
             self.color = self.base_color
             self.speed = self.game.settings.ghost_speed
 

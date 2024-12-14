@@ -78,6 +78,7 @@ class Game(GameBase):
             pygame.time.delay(500)
             ghost.pixel_center_pos = ghost.spawn_pixel_position
             ghost.mode = GhostMode.CHASE
+            ghost.direction = Direction.NONE
             ghost.in_ghost_house = True
 
     def update(self):
@@ -166,6 +167,14 @@ class Game(GameBase):
         if self.get_tile_at(tile) == LevelTile.COIN:
             self.level.map[tile[1]][tile[0]] = LevelTile.EMPTY
             self.player.on_coin_collected()
+            return True
+        return False
+
+    def try_collect_energizer(self, tile: (int, int)) -> bool:
+        if self.get_tile_at(tile) == LevelTile.ENERGIZER:
+            self.level.map[tile[1]][tile[0]] = LevelTile.EMPTY
+            self.phase_handler.frighten_ghosts(self.ghosts)
+            self.player.on_energizer_collected()
             return True
         return False
 
