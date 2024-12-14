@@ -78,6 +78,7 @@ class Game(GameBase):
             pygame.time.delay(500)
             ghost.pixel_center_pos = ghost.spawn_pixel_position
             ghost.mode = GhostMode.CHASE
+            ghost.direction = Direction.NONE
             ghost.in_ghost_house = True
 
     def update(self):
