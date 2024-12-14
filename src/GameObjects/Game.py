@@ -1,7 +1,7 @@
 import sys
 
 import pygame
-from pygame.event import EventType
+from pygame.event import EventType, get_grab
 
 from src.GameObjects.GameBase import GameBase
 from src.GameObjects.GameSettings import GameSettings
@@ -59,7 +59,7 @@ class Game(GameBase):
                        Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
     def player_collided(self, ghost: Ghost):
-        if self.phase_handler.mode != GhostMode.FRIGHTENED:
+        if ghost.mode != GhostMode.FRIGHTENED:
             self.player.activated = False
             for ghost in self.ghosts:
                 ghost.activated = False
@@ -72,6 +72,13 @@ class Game(GameBase):
             self.player.direction = Direction.NONE
             self.player.activated = True
             self.init_ghosts()
+
+        elif self.phase_handler.mode == GhostMode.FRIGHTENED:
+            self.player.score += 200
+            pygame.time.delay(500)
+            ghost.pixel_center_pos = ghost.spawn_pixel_position
+            ghost.mode = GhostMode.CHASE
+            ghost.in_ghost_house = True
 
     def update(self):
         self.player.update()
