@@ -39,6 +39,11 @@ class Ghost(MovableGameObject):
 
     def get_next_direction(self) -> Direction:
         directions = self.direction.get_possible_ghost_directions()
+
+        if self.game.get_tile_at(self.tile_position()) == LevelTile.NO_VERTICAL:
+            filtered = filter(lambda x: x != Direction.UP and x != Direction.DOWN, directions)
+            directions = list(filtered)
+
         distances = {}
         for direction in directions:
             tile = direction.get_moved_position(self.tile_position(), 1)

@@ -11,7 +11,7 @@ Z.ZZZZ.ZZ.ZZZZZZZZ.ZZ.ZZZZ.Z
 Z......ZZ....ZZ....ZZ......Z
 ZZZZZZ.ZZZZZ-ZZ-ZZZZZ.ZZZZZZ
 -----Z.ZZZZZ-ZZ-ZZZZZ.Z-----
------Z.ZZ-----1----ZZ.Z-----
+-----Z.ZZ---I-1I---ZZ.Z-----
 -----Z.ZZ-ZZZZ2ZZZ-ZZ.Z-----
 ZZZZZZ.ZZ-ZZZ234ZZ-ZZ.ZZZZZZ
 ------.---ZZZZZZZZ---.------
@@ -23,7 +23,7 @@ ZZZZZZ.ZZ-ZZZZZZZZ-ZZ.ZZZZZZ
 Z............ZZ............Z
 Z.ZZZZ.ZZZZZ.ZZ.ZZZZZ.ZZZZ.Z
 Z.ZZZZ.ZZZZZ.ZZ.ZZZZZ.ZZZZ.Z
-ZO..ZZ........P.......ZZ..OZ
+ZO..ZZ......I.PI......ZZ..OZ
 ZZZ.ZZ.ZZ.ZZZZZZZZ.ZZ.ZZ.ZZZ
 ZZZ.ZZ.ZZ.ZZZZZZZZ.ZZ.ZZ.ZZZ
 Z......ZZ....ZZ....ZZ......Z

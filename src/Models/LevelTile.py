@@ -6,5 +6,6 @@ class LevelTile(Enum):
     COIN = 2
     ENERGIZER = 3
     GHOST_HOUSE = 4
+    NO_VERTICAL = 5
 
 solid_tiles = [LevelTile.WALL, LevelTile.GHOST_HOUSE]

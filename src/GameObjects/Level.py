@@ -1,5 +1,4 @@
 import pygame.draw
-from pygame.rect import RectType
 
 from src.GameObjects.GameBase import GameBase
 from src.Models.LevelTile import LevelTile
@@ -17,6 +16,8 @@ def character_to_tile(character: str) -> LevelTile:
             return LevelTile.COIN
         case "O":
             return LevelTile.ENERGIZER
+        case "I":
+            return LevelTile.NO_VERTICAL
 
     return LevelTile.EMPTY
 
