@@ -18,8 +18,10 @@ class PhaseHandler(GameObject):
 
         if self.frightened_start_seconds is not None:
             frightened_time_seconds = time.time() - self.frightened_start_seconds
-            for ghost in ghosts:
-                ghost.mode = GhostMode.CHASE
+            if frightened_time_seconds >= 6:
+                for ghost in ghosts:
+                    ghost.mode = GhostMode.CHASE
+                self.frightened_start_seconds = None
 
         for ghost in ghosts:
             match ghost.mode:
