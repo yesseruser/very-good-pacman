@@ -46,3 +46,6 @@ class GameBase:
 
     def get_ghost_tile(self, ghost_index: int) -> (int, int):
         pass
+
+    def try_collect_coin(self, tile: (int, int)) -> bool:
+        pass

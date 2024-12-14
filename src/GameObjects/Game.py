@@ -108,3 +108,11 @@ class Game(GameBase):
 
     def get_ghost_tile(self, ghost_index: int) -> (int, int):
         return self.ghosts[ghost_index].tile_position()
+
+    def try_collect_coin(self, tile: (int, int)) -> bool:
+        if self.get_tile_at_tuple(tile) == LevelTile.COIN:
+            self.level.map[tile[1]][tile[0]] = LevelTile.EMPTY
+            self.player.on_coin_collected()
+            return True
+        return False
+
