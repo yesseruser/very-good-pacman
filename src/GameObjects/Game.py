@@ -105,3 +105,6 @@ class Game(GameBase):
 
     def get_level_tile_size(self) -> (int, int):
         return len(self.level.map[0]), len(self.level.map)
+
+    def get_ghost_tile(self, ghost_index: int) -> (int, int):
+        return self.ghosts[ghost_index].tile_position()

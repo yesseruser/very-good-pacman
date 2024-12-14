@@ -43,3 +43,6 @@ class GameBase:
 
     def get_level_tile_size(self) -> (int, int):
         pass
+
+    def get_ghost_tile(self, ghost_index: int) -> (int, int):
+        pass
