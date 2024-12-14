@@ -1,6 +1,5 @@
 import math
 from enum import Enum
-from operator import truediv
 
 
 class Direction(Enum):
