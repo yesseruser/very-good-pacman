@@ -10,5 +10,5 @@ class Pink(Ghost):
     def get_target_tile(self) -> (int, int):
         match self.game.get_ghost_mode():
             case GhostMode.CHASE:
-                return 0, 0
+                return self.game.get_player_direction().get_moved_position(self.game.get_player_tile(), 4)
         return super().get_target_tile()
