@@ -65,21 +65,21 @@ class Game(GameBase):
                 ghost.activated = False
                 ghost.direction = Direction.NONE
 
+            pygame.time.delay(3000)
+
+            self.player.lives -= 1
+            self.player.pixel_center_pos = self.get_pixel_center_from_tile(self.level.player_spawn)
+            self.player.direction = Direction.NONE
+            self.player.activated = True
+            self.init_ghosts()
+
     def update(self):
         self.player.update()
         self.phase_handler.update()
         for ghost in self.ghosts:
             ghost.update()
-
             if self.player.tile_position() == ghost.tile_position():
                 self.player_collided(ghost)
-
-                self.clock.tick(1)
-
-                self.player.lives -= 1
-                self.player.activated = True
-                self.player.direction = Direction.NONE
-                self.player.pixel_center_pos = self.get_pixel_center_from_tile(self.level.player_spawn)
 
         self.score_display.update()
         self.lives_display.update()
