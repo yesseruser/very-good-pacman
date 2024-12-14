@@ -135,7 +135,7 @@ class Game(GameBase):
 
     def game_over(self):
         self.is_looping = False
-        game_over = GameOver(self.settings)
+        game_over = GameOver(self.settings, self.player.score)
         game_over.loop()
 
     def get_wrapped_position(self, center_pixel: (int, int)) -> (int, int):

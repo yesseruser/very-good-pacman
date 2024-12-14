@@ -3,19 +3,20 @@ from pygame.event import EventType
 
 from src.GameObjects.GameBase import GameBase
 from src.GameObjects.GameOverDisplay import GameOverDisplay
+from src.GameObjects.GameSettings import GameSettings
 
 
 class GameOver(GameBase):
     game_over_display: GameOverDisplay
 
-    def __init__(self, settings):
+    def __init__(self, settings: GameSettings, score: int):
         self.settings = settings
         self.is_looping = False
         self.clock = pygame.time.Clock()
 
         pygame.init()
         pygame.font.init()
-        self.window = pygame.display.set_mode((1100, 200))
+        self.window = pygame.display.set_mode((1100, 300))
         self.game_over_display = GameOverDisplay(self, (0, 0))
 
     def update(self):
