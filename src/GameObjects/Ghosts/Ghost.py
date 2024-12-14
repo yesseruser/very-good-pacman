@@ -43,8 +43,7 @@ class Ghost(MovableGameObject):
             self.direction = self.direction.reversed()
             self.last_mode = mode
 
-        if self.tile_position() != self.last_tile:
-            self.get_next_direction()
+        self.next_direction = self.get_next_direction()
         super().update()
 
     def draw(self):
