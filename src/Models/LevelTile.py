@@ -5,3 +5,5 @@ class LevelTile(Enum):
     WALL = 1
     COIN = 2
     ENERGIZER = 3
+
+solid_tiles = [LevelTile.WALL]
