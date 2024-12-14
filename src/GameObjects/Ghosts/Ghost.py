@@ -16,7 +16,7 @@ class Ghost(MovableGameObject):
     def __init__(self, game: GameBase, position: (int, int), color: (int, int, int)):
         super().__init__(game, position)
         self.color = color
-        self.speed = 4
+        self.speed = game.settings.ghost_speed
         self.phase = 0
         self.last_mode = game.get_ghost_mode()
         self.last_tile = position

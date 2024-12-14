@@ -38,7 +38,7 @@ class Game(GameBase):
         player_spawn_pixels = self.get_pixel_center_from_tile(self.level.player_spawn)
         self.player = Player(self, player_spawn_pixels)
         self.player.color = (255, 255, 0)
-        self.player.speed = 4
+        self.player.speed = settings.player_speed
 
         self.ghosts = [Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
                        Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
