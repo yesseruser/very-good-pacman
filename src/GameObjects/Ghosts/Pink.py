@@ -11,4 +11,6 @@ class Pink(Ghost):
         match self.game.get_ghost_mode():
             case GhostMode.CHASE:
                 return self.game.get_player_direction().get_moved_position(self.game.get_player_tile(), 4)
+            case GhostMode.SCATTER:
+                return -1, -1
         return super().get_target_tile()
