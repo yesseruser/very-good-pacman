@@ -9,6 +9,7 @@ from src.GameObjects.Ghosts.Red import Red
 from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Pink import Pink
 from src.GameObjects.Level import Level
+from src.GameObjects.LivesDisplay import LivesDisplay
 from src.GameObjects.PhaseHandler import PhaseHandler
 from src.GameObjects.Player import Player
 from src.GameObjects.ScoreDisplay import ScoreDisplay
@@ -23,6 +24,7 @@ class Game(GameBase):
     level: Level
     phaseHandler: PhaseHandler
     score_display: ScoreDisplay
+    lives_display: LivesDisplay
 
     def __init__(self, settings: GameSettings):
         self.settings = settings
@@ -49,19 +51,23 @@ class Game(GameBase):
                        Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
 
         self.score_display = ScoreDisplay(self, (0, 0))
+        self.lives_display = LivesDisplay(self, (0, settings.tile_pixels))
 
     def update(self):
         self.player.update()
         self.phaseHandler.update()
         for ghost in self.ghosts:
             ghost.update()
+
         self.score_display.update()
+        self.lives_display.update()
 
     def on_event(self, event: EventType):
         self.player.on_event(event)
         for ghost in self.ghosts:
             ghost.on_event(event)
         self.score_display.on_event(event)
+        self.lives_display.on_event(event)
 
         if event.type == pygame.QUIT:
             self.is_looping = False
@@ -76,6 +82,7 @@ class Game(GameBase):
             ghost.draw()
 
         self.score_display.draw()
+        self.lives_display.draw()
 
     def loop(self):
         self.is_looping = True
