@@ -41,11 +41,8 @@ class GameBase:
     def get_lives(self) -> int:
         pass
 
-    def get_tile_at(self, x: int, y: int) -> LevelTile:
+    def get_tile_at(self, tile: (int, int)) -> LevelTile:
         pass
-
-    def get_tile_at_tuple(self, tile: (int, int)) -> LevelTile:
-        return self.get_tile_at(tile[0], tile[1])
 
     def get_level_tile_size(self) -> (int, int):
         pass

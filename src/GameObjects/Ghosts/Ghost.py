@@ -42,7 +42,7 @@ class Ghost(MovableGameObject):
         distances = {}
         for direction in directions:
             tile = direction.get_moved_position(self.tile_position(), 1)
-            if self.game.get_tile_at_tuple(tile) in self.get_solid_tiles():
+            if self.game.get_tile_at(tile) in self.get_solid_tiles():
                 continue
             distances[direction] = math.dist(tile, self.get_target_tile())
 
