@@ -56,3 +56,15 @@ class Direction(Enum):
                 return Direction.RIGHT if counterclockwise else Direction.LEFT
 
         return Direction.NONE
+
+    def get_possible_ghost_directions(self) -> list:
+        match self:
+            case Direction.RIGHT:
+                return [Direction.UP, Direction.RIGHT, Direction.DOWN]
+            case Direction.LEFT:
+                return [Direction.UP, Direction.LEFT, Direction.DOWN]
+            case Direction.UP:
+                return [Direction.UP, Direction.LEFT, Direction.RIGHT]
+            case Direction.DOWN:
+                return [Direction.DOWN, Direction.LEFT, Direction.RIGHT]
+        return [Direction.UP, Direction.LEFT, Direction.RIGHT, Direction.DOWN]
