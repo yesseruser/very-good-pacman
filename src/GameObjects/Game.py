@@ -75,6 +75,7 @@ class Game(GameBase):
 
             self.player.pixel_center_pos = self.get_pixel_center_from_tile(self.level.player_spawn)
             self.player.direction = Direction.NONE
+            self.player.next_direction = Direction.NONE
             self.player.activated = True
             self.init_ghosts()
 
