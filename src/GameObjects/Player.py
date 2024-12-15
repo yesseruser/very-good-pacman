@@ -13,7 +13,7 @@ class Player(MovableGameObject):
 
     def __init__(self, game: GameBase, pixel_position: (int, int)):
         super().__init__(game, pixel_position)
-        self.lives = 3
+        self.lives = 2
         self.score = 0
         self.coins = 0
         self.activated = True
