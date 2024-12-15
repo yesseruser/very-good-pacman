@@ -11,7 +11,7 @@ class Blue(Ghost):
         if self.in_ghost_house:
             return self.game.get_ghost_house_exit()
 
-        match self.game.get_ghost_mode():
+        match self.mode:
             case GhostMode.CHASE:
                 center_point = self.game.get_pixel_center_from_tile(self.game.get_player_direction().get_moved_position(
                     self.game.get_player_tile(), 2))

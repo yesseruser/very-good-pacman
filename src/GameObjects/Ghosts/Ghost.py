@@ -24,12 +24,12 @@ class Ghost(MovableGameObject):
         self.base_color = color
         self.speed = game.settings.ghost_speed
         self.phase = 0
-        self.last_mode = game.get_ghost_mode()
         self.last_tile = position
         self.direction = Direction.NONE
         self.in_ghost_house = True
         self.activated = False
         self.spawn_pixel_position = position
+        self.last_mode = GhostMode.CHASE
         self.mode = GhostMode.CHASE
 
     def get_target_tile(self) -> (int, int):
@@ -66,7 +66,7 @@ class Ghost(MovableGameObject):
         return lowest_distance_pair[0]
 
     def update(self):
-        mode = self.game.get_ghost_mode()
+        mode = self.mode
         if self.last_mode != mode and self.mode != GhostMode.FRIGHTENED:
             self.direction = self.direction.reversed()
             self.last_mode = mode
