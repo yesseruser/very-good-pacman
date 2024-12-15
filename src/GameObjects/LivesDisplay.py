@@ -9,8 +9,13 @@ class LivesDisplay(GameObject):
 
     def __init__(self, game: GameBase, pixel_position: (int, int)):
         super().__init__(game, pixel_position)
-        self.font = pygame.font.SysFont("monospace", self.game.settings.tile_pixels)
+        self.color = (255, 255, 0)
 
     def draw(self):
-        text_surface = self.font.render(f"Lives: {self.game.get_lives()}", False, (255, 255, 255))
-        self.game.window.blit(text_surface, self.pixel_center_pos)
+        lives = self.game.get_lives()
+        if lives > 0:
+            for i in range(lives):
+                position = (self.pixel_center_pos[0] + (i * self.game.settings.tile_pixels) + self.game.settings.tile_pixels / 2,
+                            self.pixel_center_pos[1] + self.game.settings.tile_pixels / 2)
+                pygame.draw.circle(self.game.window, self.color, position,
+                                   self.game.settings.tile_pixels / 2)
