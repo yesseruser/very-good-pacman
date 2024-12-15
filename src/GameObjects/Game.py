@@ -36,7 +36,11 @@ class Game(GameBase):
         self.phase_handler = PhaseHandler(self, (0, 0))
 
         self.level = Level(self)
-        self.level.load_from_file(f"{sys.path[0]}/res/level.txt")
+
+        if hasattr(sys, '_MEIPASS'):
+            self.level.load_from_file(f"{sys._MEIPASS}/res/level.txt")
+        else:
+            self.level.load_from_file(f"{sys.path[0]}/res/level.txt")
 
         pygame.init()
         pygame.font.init()
