@@ -95,7 +95,7 @@ class Game(GameBase):
         self.phase_handler.handle_mode_change(self.ghosts)
         for ghost in self.ghosts:
             ghost.update()
-            if self.player.tile_position() == ghost.tile_position():
+            if self.get_tile_from_pixel(self.player.direction.get_moved_position(self.player.pixel_center_pos, self.settings.tile_pixels / 5)) == ghost.tile_position():
                 self.player_collided(ghost)
 
         self.score_display.update()
