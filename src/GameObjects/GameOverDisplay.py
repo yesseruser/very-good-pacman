@@ -10,8 +10,8 @@ class GameOverDisplay(GameObject):
 
     def __init__(self, game: GameBase, pixel_position: (int, int)):
         super().__init__(game, pixel_position)
-        self.font = pygame.font.SysFont("monospace", 200)
-        self.score_font = pygame.font.SysFont("monospace", 100)
+        self.font = self.game.settings.font_200
+        self.score_font = self.game.settings.font_100
 
     def draw(self):
         text_surface = self.font.render("Game Over", False, (255, 255, 255))

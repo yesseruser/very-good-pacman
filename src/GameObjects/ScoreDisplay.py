@@ -9,7 +9,7 @@ class ScoreDisplay(GameObject):
 
     def __init__(self, game: GameBase, pixel_position: (int, int)):
         super().__init__(game, pixel_position)
-        self.font = pygame.font.SysFont("monospace", self.game.settings.tile_pixels)
+        self.font = self.game.settings.font_tile
 
     def draw(self):
         text_surface = self.font.render(f"Score: {self.game.get_score()}", False, (255, 255, 255))

@@ -42,8 +42,6 @@ class Game(GameBase):
         else:
             self.level.load_from_file(f"{sys.path[0]}/res/level.txt")
 
-        pygame.init()
-        pygame.font.init()
         self.window = pygame.display.set_mode((len(self.level.map[0]) * settings.tile_pixels,
                                                len(self.level.map) * settings.tile_pixels))
 
