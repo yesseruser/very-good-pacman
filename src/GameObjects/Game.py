@@ -4,6 +4,7 @@ import pygame
 from pygame.event import EventType
 
 from src.GameObjects.GameBase import GameBase
+from src.GameObjects.GameOver import GameOver
 from src.GameObjects.GameSettings import GameSettings
 from src.GameObjects.Ghosts.Blue import Blue
 from src.GameObjects.Ghosts.Ghost import Ghost
@@ -65,11 +66,16 @@ class Game(GameBase):
                 ghost.activated = False
                 ghost.direction = Direction.NONE
 
-            pygame.time.delay(3000)
+            pygame.time.delay(2000)
 
             self.player.lives -= 1
+
+            if self.player.lives < 0:
+                self.game_over()
+
             self.player.pixel_center_pos = self.get_pixel_center_from_tile(self.level.player_spawn)
             self.player.direction = Direction.NONE
+            self.player.next_direction = Direction.NONE
             self.player.activated = True
             self.init_ghosts()
 
@@ -127,6 +133,11 @@ class Game(GameBase):
 
             pygame.display.flip()
             self.clock.tick(60)
+
+    def game_over(self):
+        self.is_looping = False
+        game_over = GameOver(self.settings, self.player.score)
+        game_over.loop()
 
     def get_wrapped_position(self, center_pixel: (int, int)) -> (int, int):
         return (
