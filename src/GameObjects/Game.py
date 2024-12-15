@@ -81,6 +81,7 @@ class Game(GameBase):
 
         elif ghost.mode == GhostMode.FRIGHTENED:
             self.player.score += 200
+            self.player.check_extra_life()
             pygame.time.delay(500)
             ghost.pixel_center_pos = ghost.spawn_pixel_position
             ghost.mode = GhostMode.CHASE
