@@ -10,22 +10,26 @@ class GameBase:
     window: SurfaceType
     is_looping: bool
 
-    def get_tile_from_pixel(self, pixel: (int, int)) -> (int, int):
+    def get_tile_from_pixel(self, pixel: tuple[int, int]) -> tuple[int, int]:
         return (
             int(pixel[0] / self.settings.tile_pixels),
-            int(pixel[1] / self.settings.tile_pixels)
+            int(pixel[1] / self.settings.tile_pixels),
         )
 
-    def get_pixel_center_from_tile(self, tile: (int, int)) -> (int, int):
+    def get_pixel_center_from_tile(self, tile: tuple[int, int]) -> tuple[int, int]:
         return (
-            int((tile[0] * self.settings.tile_pixels) + (self.settings.tile_pixels / 2)),
-            int((tile[1] * self.settings.tile_pixels) + (self.settings.tile_pixels / 2))
+            int(
+                (tile[0] * self.settings.tile_pixels) + (self.settings.tile_pixels / 2)
+            ),
+            int(
+                (tile[1] * self.settings.tile_pixels) + (self.settings.tile_pixels / 2)
+            ),
         )
 
-    def get_wrapped_position(self, tile: (int, int)) -> (int, int):
+    def get_wrapped_position(self, center_pixel: tuple[int, int]) -> tuple[int, int]:
         pass
 
-    def get_player_tile(self) -> (int, int):
+    def get_player_tile(self) -> tuple[int, int]:
         pass
 
     def get_player_direction(self) -> Direction:
@@ -40,22 +44,22 @@ class GameBase:
     def get_lives(self) -> int:
         pass
 
-    def get_tile_at(self, tile: (int, int)) -> LevelTile:
+    def get_tile_at(self, tile: tuple[int, int]) -> LevelTile:
         pass
 
-    def get_level_tile_size(self) -> (int, int):
+    def get_level_tile_size(self) -> tuple[int, int]:
         pass
 
-    def get_ghost_tile(self, ghost_index: int) -> (int, int):
+    def get_ghost_tile(self, ghost_index: int) -> tuple[int, int]:
         pass
 
-    def try_collect_coin(self, tile: (int, int)) -> bool:
+    def try_collect_coin(self, tile: tuple[int, int]) -> bool:
         pass
 
-    def try_collect_energizer(self, tile: (int, int)) -> bool:
+    def try_collect_energizer(self, tile: tuple[int, int]) -> bool:
         pass
 
-    def get_ghost_house_exit(self) -> (int, int):
+    def get_ghost_house_exit(self) -> tuple[int, int]:
         pass
 
     def has_player_moved(self) -> bool:

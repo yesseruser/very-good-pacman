@@ -37,13 +37,17 @@ class Game(GameBase):
 
         self.level = Level(self)
 
-        if hasattr(sys, '_MEIPASS'):
+        if hasattr(sys, "_MEIPASS"):
             self.level.load_from_file(f"{sys._MEIPASS}/res/level.txt")
         else:
             self.level.load_from_file(f"{sys.path[0]}/res/level.txt")
 
-        self.window = pygame.display.set_mode((len(self.level.map[0]) * settings.tile_pixels,
-                                               len(self.level.map) * settings.tile_pixels))
+        self.window = pygame.display.set_mode(
+            (
+                len(self.level.map[0]) * settings.tile_pixels,
+                len(self.level.map) * settings.tile_pixels,
+            )
+        )
 
         player_spawn_pixels = self.get_pixel_center_from_tile(self.level.player_spawn)
         self.player = Player(self, player_spawn_pixels)
@@ -56,10 +60,12 @@ class Game(GameBase):
         self.lives_display = LivesDisplay(self, (0, settings.tile_pixels))
 
     def init_ghosts(self):
-        self.ghosts = [Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
-                       Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
-                       Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
-                       Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn))]
+        self.ghosts = [
+            Red(self, self.get_pixel_center_from_tile(self.level.red_spawn)),
+            Blue(self, self.get_pixel_center_from_tile(self.level.blue_spawn)),
+            Pink(self, self.get_pixel_center_from_tile(self.level.pink_spawn)),
+            Orange(self, self.get_pixel_center_from_tile(self.level.orange_spawn)),
+        ]
 
     def player_collided(self, ghost: Ghost):
         if ghost.mode != GhostMode.FRIGHTENED:
@@ -75,7 +81,9 @@ class Game(GameBase):
             if self.player.lives < 0:
                 self.game_over()
 
-            self.player.pixel_center_pos = self.get_pixel_center_from_tile(self.level.player_spawn)
+            self.player.pixel_center_pos = self.get_pixel_center_from_tile(
+                self.level.player_spawn
+            )
             self.player.direction = Direction.NONE
             self.player.next_direction = Direction.NONE
             self.player.activated = True
@@ -95,7 +103,14 @@ class Game(GameBase):
         self.phase_handler.handle_mode_change(self.ghosts)
         for ghost in self.ghosts:
             ghost.update()
-            if self.get_tile_from_pixel(self.player.direction.get_moved_position(self.player.pixel_center_pos, self.settings.tile_pixels / 5)) == ghost.tile_position():
+            if (
+                self.get_tile_from_pixel(
+                    self.player.direction.get_moved_position(
+                        self.player.pixel_center_pos, int(self.settings.tile_pixels / 5)
+                    )
+                )
+                == ghost.tile_position()
+            ):
                 self.player_collided(ghost)
 
         self.score_display.update()
@@ -142,13 +157,13 @@ class Game(GameBase):
         game_over = GameOver(self.settings, self.player.score)
         game_over.loop()
 
-    def get_wrapped_position(self, center_pixel: (int, int)) -> (int, int):
+    def get_wrapped_position(self, center_pixel: tuple[int, int]) -> tuple[int, int]:
         return (
             center_pixel[0] % (self.level.width * self.settings.tile_pixels),
-            center_pixel[1] % (self.level.height * self.settings.tile_pixels)
+            center_pixel[1] % (self.level.height * self.settings.tile_pixels),
         )
 
-    def get_player_tile(self) -> (int, int):
+    def get_player_tile(self) -> tuple[int, int]:
         return self.player.tile_position()
 
     def get_player_direction(self) -> Direction:
@@ -163,7 +178,7 @@ class Game(GameBase):
     def get_lives(self) -> int:
         return self.player.lives
 
-    def get_tile_at(self, tile: (int, int)) -> LevelTile:
+    def get_tile_at(self, tile: tuple[int, int]) -> LevelTile:
         x = tile[0]
         y = tile[1]
         if x < 0 or x >= self.level.width or y < 0 or y >= self.level.height:
@@ -171,20 +186,20 @@ class Game(GameBase):
 
         return self.level.map[y][x]
 
-    def get_level_tile_size(self) -> (int, int):
+    def get_level_tile_size(self) -> tuple[int, int]:
         return len(self.level.map[0]), len(self.level.map)
 
-    def get_ghost_tile(self, ghost_index: int) -> (int, int):
+    def get_ghost_tile(self, ghost_index: int) -> tuple[int, int]:
         return self.ghosts[ghost_index].tile_position()
 
-    def try_collect_coin(self, tile: (int, int)) -> bool:
+    def try_collect_coin(self, tile: tuple[int, int]) -> bool:
         if self.get_tile_at(tile) == LevelTile.COIN:
             self.level.map[tile[1]][tile[0]] = LevelTile.EMPTY
             self.player.on_coin_collected()
             return True
         return False
 
-    def try_collect_energizer(self, tile: (int, int)) -> bool:
+    def try_collect_energizer(self, tile: tuple[int, int]) -> bool:
         if self.get_tile_at(tile) == LevelTile.ENERGIZER:
             self.level.map[tile[1]][tile[0]] = LevelTile.EMPTY
             self.phase_handler.frighten_ghosts(self.ghosts)
@@ -192,7 +207,7 @@ class Game(GameBase):
             return True
         return False
 
-    def get_ghost_house_exit(self) -> (int, int):
+    def get_ghost_house_exit(self) -> tuple[int, int]:
         return self.level.red_spawn
 
     def has_player_moved(self) -> bool:
